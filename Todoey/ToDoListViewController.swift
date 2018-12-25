@@ -11,9 +11,14 @@ import UIKit
 class ToDoListViewController: UITableViewController {
     
     var itemArray = ["Find Mike", "ceva", "Altceva"]
+    
+    let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let items = defaults.array(forKey: "ToDoListItemArray") as? [String] {
+            itemArray = items
+        }
     }
 
     //MARK: - TableView Data Source methods
@@ -61,6 +66,7 @@ class ToDoListViewController: UITableViewController {
             //What will happen when the user press the Add item
             if textField.text != nil{
                 self.itemArray.append(textField.text!)
+                self.defaults.set(self.itemArray, forKey: "ToDoListItemArray")
                 self.tableView.reloadData()
             }
         }
